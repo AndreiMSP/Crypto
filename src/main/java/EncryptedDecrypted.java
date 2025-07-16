@@ -1,9 +1,11 @@
-import javax.imageio.IIOException;
+import lombok.SneakyThrows;
+
 import java.io.*;
 import java.util.Scanner;
 
 public class EncryptedDecrypted {
-    public static void encryptedDecrypted(boolean flag) throws IOException {
+    @SneakyThrows
+    public static void encryptedDecrypted(boolean flag) {
         Scanner scanner = new Scanner(System.in);
         if (flag) {
             System.out.println("Введите адрес файла для его шифрования");
