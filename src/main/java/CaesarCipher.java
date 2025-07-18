@@ -1,27 +1,55 @@
 public class CaesarCipher {
-    private static String ALPHABET = "";
+    private static String ALPHABET = "abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+            "абвгдеёжзийклмнопрстуфхцчшщъыьэюя" + "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" +
+            ".,\":!? +-*/\\@#$%^&(){}[];'|`~=_©«»—" + "0123456789";
 
     public String encrypt(String message, int key) {
-        char[] arrays = message.toCharArray();
         StringBuilder stringBuilder = new StringBuilder();
-
-        for (int i = 0; i < arrays.length; i++) {
-            int index = ALPHABET.indexOf(arrays[i]);
-            if (index >= 0) {
-                int newIndex = (index + key) % ALPHABET.length();
-                char charAt = 0;
+        for (int i = 0; i < message.length(); i++) {
+            char element = message.charAt(i);
+            int index = ALPHABET.indexOf(element);
+            if (index >=0) {
+                int newIndex = index + key;
                 if (newIndex < 0) {
-                    charAt = ALPHABET.charAt(newIndex + ALPHABET.length());
+                    while (newIndex < 0) {
+                        newIndex = newIndex + ALPHABET.length();
+                    }
                 } else {
-                    charAt = ALPHABET.charAt(newIndex);
+                    while (newIndex >= ALPHABET.length()) {
+                        newIndex = newIndex - ALPHABET.length();
+                    }
                 }
-                stringBuilder.append(charAt);
+                char encryptElement = ALPHABET.charAt(newIndex);
+                stringBuilder.append(encryptElement);
             }
+
         }
         return stringBuilder.toString();
     }
 
     public String decrypt(String message, int key) {
-        return encrypt(message, key * -1);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < message.length(); i++) {
+            char element = message.charAt(i);
+            int index = ALPHABET.indexOf(element);
+            if (index >= 0) {
+
+                int newIndex = index - key;
+                if (newIndex > 0) {
+                    while (newIndex >= ALPHABET.length()) {
+                        newIndex = newIndex - ALPHABET.length();
+                    }
+                } else {
+                    while (newIndex < 0) {
+                        newIndex = newIndex + ALPHABET.length();
+                    }
+                }
+                char encryptElement = ALPHABET.charAt(newIndex);
+                stringBuilder.append(encryptElement);
+            }
+        }
+        return stringBuilder.toString();
     }
+
+
 }
