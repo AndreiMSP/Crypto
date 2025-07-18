@@ -1,7 +1,8 @@
 import lombok.SneakyThrows;
 
 import java.io.*;
-import java.util.Scanner;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class EncryptedDecrypted {
     @SneakyThrows
@@ -12,22 +13,21 @@ public class EncryptedDecrypted {
         String src = ConsoleHelper.readString();
         System.out.println("Введите ключ шифрования:");
         int key = ConsoleHelper.readInt();
-        System.out.println("Введите адрес файла куда записать результат:");
-        String dst = ConsoleHelper.readString();
-        CaesarCipher2 caesarCipher2 = new CaesarCipher2();
+        Path dst = ConsoleHelper.buildFileName(src, flag ? "_e" : "_d");
+
+        CaesarCipher caesarCipher = new CaesarCipher();
         try (FileReader fileReader = new FileReader(src);
              BufferedReader bufferedReader = new BufferedReader(fileReader);
-             FileWriter fileWriter = new FileWriter(dst);
-             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+             BufferedWriter bufferedWriter = Files.newBufferedWriter(dst)) {
             while (bufferedReader.ready()) {
                 String string = bufferedReader.readLine();
                 String result = flag ?
-                        caesarCipher2.encrypt(string, key) :
-                        caesarCipher2.decrypt(string, key);
+                        caesarCipher.encrypt(string, key) :
+                        caesarCipher.decrypt(string, key);
 //                if (flag) {
-//                    result = caesarCipher2.encrypt(string, key);
+//                    result = caesarCipher.encrypt(string, key);
 //                } else {
-//                    result = caesarCipher2.decrypt(string, key);
+//                    result = caesarCipher.decrypt(string, key);
 //                }
                 bufferedWriter.write(result);
                 bufferedWriter.newLine();
