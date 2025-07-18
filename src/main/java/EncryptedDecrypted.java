@@ -6,17 +6,14 @@ import java.util.Scanner;
 public class EncryptedDecrypted {
     @SneakyThrows
     public static void encryptedDecrypted(boolean flag) {
-        Scanner scanner = new Scanner(System.in);
-        if (flag) {
-            System.out.println("Введите адрес файла для его шифрования");
-        } else {
-            System.out.println("Введите адрес файла для его расшифровывания");
-        }
-        String src = scanner.nextLine();
+        String text = "Введите адрес файла для его ";
+        ConsoleHelper.writeMessage(text + (flag ? "шифрования" : "расшифровывания"));
+
+        String src = ConsoleHelper.readString();
         System.out.println("Введите ключ шифрования:");
-        int key = Integer.parseInt(scanner.nextLine());
-        System.out.println("Введите адрес файла куда аписать результат:");
-        String dst = scanner.nextLine();
+        int key = ConsoleHelper.readInt();
+        System.out.println("Введите адрес файла куда записать результат:");
+        String dst = ConsoleHelper.readString();
         CaesarCipher2 caesarCipher2 = new CaesarCipher2();
         try (FileReader fileReader = new FileReader(src);
              BufferedReader bufferedReader = new BufferedReader(fileReader);
