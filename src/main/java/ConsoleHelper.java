@@ -2,6 +2,7 @@ import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 
 public class ConsoleHelper {
     private static final BufferedReader CONSOLE = new BufferedReader(new InputStreamReader(System.in));
@@ -20,7 +21,22 @@ public class ConsoleHelper {
         return CONSOLE.readLine();
 
     }
+
     public static int readInt() {
         return Integer.parseInt(readString());
+    }
+
+    public static Path buildFileName(String path, String suffix) {
+        Path fullPath = Path.of(path);
+        Path parent = fullPath.getParent();
+        String fileName = fullPath.getFileName().toString();
+        String newFileName = null;
+        if (fileName.contains(".")) {
+            int index = fileName.lastIndexOf(".");
+            newFileName = fileName.substring(0, index) + suffix + fileName.substring(index);
+        } else {
+            newFileName = fileName + suffix;
+        }
+        return parent.resolve(newFileName);
     }
 }
